@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TDBEF_CodefirstModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Adresler">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AdresTanim" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="kisi_ID" Type="Int32" />
+    <NavigationProperty Name="Kisiler" Relationship="Self.FK_dbo_Adresler_dbo_Kisiler_kisi_ID" FromRole="Adresler" ToRole="Kisiler" />
+  </EntityType>
+  <EntityType Name="Kisiler">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ad" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Soyad" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Yas" Type="Int32" Nullable="false" />
+    <Property Name="Mail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Adresler" Relationship="Self.FK_dbo_Adresler_dbo_Kisiler_kisi_ID" FromRole="Kisiler" ToRole="Adresler" />
+  </EntityType>
+  <Association Name="FK_dbo_Adresler_dbo_Kisiler_kisi_ID">
+    <End Role="Kisiler" Type="Self.Kisiler" Multiplicity="0..1" />
+    <End Role="Adresler" Type="Self.Adresler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kisiler">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Adresler">
+        <PropertyRef Name="kisi_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TDBEF_CodefirstEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Adresler" EntityType="Self.Adresler" />
+    <EntitySet Name="Kisiler" EntityType="Self.Kisiler" />
+    <AssociationSet Name="FK_dbo_Adresler_dbo_Kisiler_kisi_ID" Association="Self.FK_dbo_Adresler_dbo_Kisiler_kisi_ID">
+      <End Role="Kisiler" EntitySet="Kisiler" />
+      <End Role="Adresler" EntitySet="Adresler" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
